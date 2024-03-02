@@ -1,0 +1,104 @@
+CODIGO DE BUSQUEDA.SH
+
+#!/bin/bash
+
+path="/var/log/"
+word="warning"
+
+cd "$path"
+
+for file in *
+do
+#	echo "$file"
+#	cat "$file" | grep -i "$word"
+	grep -Ril "$word" "$file"
+done
+
+
+
+
+CODIGO DE CURLS.SH
+
+#!/bin/bash
+
+declare -a paginas=('www.google.com''www.plataforma-utslp.net''sito.utslp.edu.mx''git-scm.com''www.mozilla.org''www.facebook.com''www.snaptchat.com''www.instagram.com''www.enmimaquinafunciona.com''www.chatgpt.com')
+
+for pagina in "$pagina{[@]}"
+do
+	escho -e "$pagina" \n"
+	curl -s -l "$pagina"
+done
+
+
+
+
+CODIGO DE CURLS2.SH
+
+#!/bin/bash
+file=paginas.csv
+
+
+for pagina in $(cat paginas)
+do
+	echo -e "$pagina \n"
+	salida=$(curl -s -I "$pagina" | sed -n 'ip' | tail -1 | awk '{print $3"" $4}' | rev | cut -c3- | rev)
+	if [ -z "$salida" ]
+	then
+		echo $pagina, "Fail">>$file
+	else
+		echo $pagina, "OK">>$file
+	fi
+done
+
+column -s, -t $file
+
+
+
+
+CODIGO DE SUma.sh
+
+#!/bin/bash
+
+declare -a numeros=(1 2 3 4 5)
+suma=0
+
+for num in "${numeros[@]}"
+do
+	suma=$((suma+num))
+done
+echo "$suma"
+echo "${numeros[2-4]}"
+
+
+
+
+codigo scrip.sh
+
+! /bin/bash
+file=cpu.log
+path=/var/log
+
+cd $path
+if !(find $file)
+then
+        touch $file
+fi
+
+while true; do
+        echo "$(date +%d/%m/%Y-%H:%M:%S)\t$(hostname -A)\t cpu_info=$(grep 'cpu' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}')\t memory_info=$(free -m -t | grep "Mem:" | awk '{usage=($3)*100/($2)} END {print usage}' )" >> $file
+done
+
+
+
+codigo log.sh
+
+#! /bin/bash
+file=cpu.log
+path=/var/log
+
+cd $path
+if !(find $file)
+then
+        touch $file
+fi
+echo -e "$(date +%d/%m/%Y-%H:%M:%S)\t$(hostname -A)\t cpu_info=$(grep 'cpu' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}')\t  memory_info=$(free -m -t | grep "Mem:" | awk '{usage=($3)*100/($2)} END {print usage}' )" >> $file
